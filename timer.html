@@ -1,0 +1,60 @@
+<!--
+
+Copyright (c) 2017 Chris Stevens
+
+Module Name:
+
+    timer.html
+
+Abstract:
+
+    This file stores the HTML for the main timer window.
+
+Author:
+
+    Chris Stevens 8-Sept-2017
+
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Break Time!</title>
+    <style type="text/css" media="screen">
+      body {
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        background: rgba(0, 0, 0, 0.5);
+        -webkit-user-select:none;
+        font: caption;
+      }
+      .content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        text-align: center;
+        color: #dfdfdf;
+      }
+      .title {
+        font-size: 5em;
+      }
+      .subtitle {
+        font-size: 2em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content">
+      <div class="title">20-20-20</div>
+      <div class="title" id="timer"></div>
+      <div class="subtitle">Press space bar to exit.</div>
+    </div>
+  </body>
+
+  <script>
+    require('./timerend.js')
+  </script>
+</html>
