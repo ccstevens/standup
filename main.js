@@ -21,7 +21,8 @@ Author:
 //
 
 const electron = require('electron');
-const timer = require('./timer.js');
+const timer = require('./timer');
+const tray = require('./tray');
 const app = electron.app;
 
 //
@@ -33,6 +34,15 @@ const app = electron.app;
 //
 
 app.on('ready', function () {
+
+    //
+    // Add the tray menu.
+    //
+
+    result = tray.initialize();
+    if (result === false) {
+        return;
+    }
 
     //
     // Start the timer.
