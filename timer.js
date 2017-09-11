@@ -27,13 +27,12 @@ const url = require('url')
 const BrowserWindow = electron.BrowserWindow
 const ipc = electron.ipcMain
 
-
 //
 // -------------------------------------------------------------------- Exports
 //
 
-module.exports.start = start;
-module.exports.stop = stop;
+module.exports.start = timerStart;
+module.exports.stop = timerStop;
 
 //
 // ------------------------------------------------------------------ Constants
@@ -43,7 +42,7 @@ module.exports.stop = stop;
 // Store the default interval between breaks, in milliseconds.
 //
 
-const TIMER_DURATION_DEFAULT = 20 * 60 * 1000;
+const TIMER_PERIOD_DEFAULT = 20 * 60 * 1000;
 
 //
 // -------------------------------------------------------------------- Globals
@@ -55,14 +54,14 @@ const TIMER_DURATION_DEFAULT = 20 * 60 * 1000;
 //
 
 let timerWindow;
-var interval = null;
-var timeout = TIMER_DURATION_DEFAULT;
+var timerInterval = null;
+var timerPeriod = TIMER_PERIOD_DEFAULT;
 
 //
 // ------------------------------------------------------------------ Functions
 //
 
-function start ()
+function timerStart ()
 
 /*++
 
@@ -83,12 +82,12 @@ Return Value:
 
 {
 
-    stop();
-    interval = setInterval(timerTimeoutHandler, timeout);
+    timerStop();
+    timerInterval = setInterval(timerTimeoutHandler, timerPeriod);
     return;
 }
 
-function stop ()
+function timerStop ()
 
 /*++
 
@@ -108,9 +107,9 @@ Return Value:
 
 {
 
-    if (interval) {
-        clearInterval(interval);
-        interval = null;
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
     }
 
     timerDestroyWindow();
