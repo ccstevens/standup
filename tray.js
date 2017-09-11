@@ -20,7 +20,7 @@ Author:
 // -------------------------------------------------------------------- Exports
 //
 
-module.exports.initialize = initialize;
+module.exports.initialize = trayInitialize;
 
 //
 // -------------------------------------------------------------------- Imports
@@ -31,7 +31,7 @@ const electron = require('electron');
 const Tray = electron.Tray;
 const Menu = electron.Menu;
 const app = electron.app;
-const timer = require('./timer');
+const timer = require('./timer')
 
 //
 // ------------------------------------------------------------------ Constants
@@ -40,6 +40,8 @@ const timer = require('./timer');
 const DEFAULT_ICON_NAME = 'img/default-icon.png';
 const WINDOWS_ICON_NAME = 'img/windows-icon.png';
 const TRAY_TOOL_TIP = 'Hiatus';
+const TRAY_ENABLE_INDEX = 0;
+const TRAY_DISABLE_INDEX = 1;
 
 //
 // -------------------------------------------------------------------- Globals
@@ -52,12 +54,14 @@ const TRAY_TOOL_TIP = 'Hiatus';
 const trayContextMenuTemplate = [
     {
         label: 'Enable',
-        click: trayEnableTimer
+        click: trayEnableTimer,
+        visible: false
     },
 
     {
         label: 'Disable',
-        click: trayDisableTimer
+        click: trayDisableTimer,
+        visible: true
     },
 
     {
@@ -73,10 +77,16 @@ const trayContextMenuTemplate = [
 let trayIcon;
 
 //
+// Store the tray's context menu so it can be updated on refresh.
+//
+
+var trayContextMenu;
+
+//
 // ------------------------------------------------------------------ Functions
 //
 
-function initialize ()
+function trayInitialize ()
 
 /*++
 
@@ -96,7 +106,6 @@ Return Value:
 
 {
 
-    var contextMenu;
     var iconName;
     var iconPath;
 
@@ -110,8 +119,8 @@ Return Value:
         return false;
     }
 
-    contextMenu = Menu.buildFromTemplate(trayContextMenuTemplate);
-    if (!contextMenu) {
+    trayContextMenu = Menu.buildFromTemplate(trayContextMenuTemplate);
+    if (!trayContextMenu) {
         return false;
     }
 
@@ -121,7 +130,7 @@ Return Value:
     }
 
     trayIcon.setToolTip(TRAY_TOOL_TIP);
-    trayIcon.setContextMenu(contextMenu);
+    trayIcon.setContextMenu(trayContextMenu);
     return true;
 }
 
@@ -146,6 +155,7 @@ Return Value:
 {
 
     timer.start();
+    trayRefresh();
     return;
 }
 
@@ -170,6 +180,7 @@ Return Value:
 {
 
     timer.stop();
+    trayRefresh();
     return;
 }
 
@@ -194,5 +205,35 @@ Return Value:
 {
 
     app.quit();
+    return;
+}
+
+function trayRefresh ()
+
+/*++
+
+Routine Description:
+
+    This routine refreshes the tray context menu items to display the most
+    up to date information.
+
+Arguments:
+
+    None.
+
+Return Value;
+
+    None.
+
+--*/
+
+{
+
+    var timerEnabled;
+
+    timerEnabled = timer.isEnabled();
+    trayContextMenu.items[TRAY_ENABLE_INDEX].visible = !timerEnabled;
+    trayContextMenu.items[TRAY_DISABLE_INDEX].visible = timerEnabled;
+    trayIcon.setContextMenu(trayContextMenu);
     return;
 }

@@ -33,6 +33,7 @@ const ipc = electron.ipcMain
 
 module.exports.start = timerStart;
 module.exports.stop = timerStop;
+module.exports.isEnabled = timerIsEnabled;
 
 //
 // ------------------------------------------------------------------ Constants
@@ -114,6 +115,33 @@ Return Value:
 
     timerDestroyWindow();
     return;
+}
+
+function timerIsEnabled ()
+
+/*++
+
+Routine Description:
+
+    This routine determines whether or not the timer is enabled.
+
+Arguments:
+
+    None.
+
+Return Value:
+
+    Returns true if the timer is enabled, or false otherwise.
+
+--*/
+
+{
+
+    if (timerInterval) {
+        return true;
+    }
+
+    return false;
 }
 
 function timerTimeoutHandler ()
