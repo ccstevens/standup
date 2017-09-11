@@ -39,7 +39,7 @@ const timer = require('./timer')
 
 const DEFAULT_ICON_NAME = 'img/default-icon.png';
 const WINDOWS_ICON_NAME = 'img/windows-icon.png';
-const TRAY_TOOL_TIP = 'Hiatus';
+const TRAY_TOOL_TIP = 'Stand Up!';
 const TRAY_ENABLE_INDEX = 0;
 const TRAY_DISABLE_INDEX = 1;
 
