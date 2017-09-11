@@ -1,12 +1,12 @@
 {
-  "name": "hiatus",
+  "name": "Stand Up!",
   "version": "0.1.0",
   "description": "A 20-20-20 rule application.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/ccstevens/hiatus",
+  "repository": "https://github.com/ccstevens/standup",
   "keywords": [
     "Electron",
     "break",
