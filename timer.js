@@ -183,7 +183,7 @@ Return Value:
         frame: false,
         toolbar: false,
         fullscreen: true,
-        alwaysOnTop: false,
+        alwaysOnTop: true,
         show: false,
         movable: false,
         skipTaskbar: true,
