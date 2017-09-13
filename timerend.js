@@ -31,6 +31,7 @@ const ipc = electron.ipcRenderer;
 // Define the update interval in milliseconds.
 //
 
+const TIMER_SECONDS = 20;
 const TIMER_UPDATE_INTERVAL = 1000;
 const MILLISECONDS_PER_SECOND = 1000;
 
@@ -42,7 +43,7 @@ const MILLISECONDS_PER_SECOND = 1000;
 // Store the initial countdown value, in millseconds.
 //
 
-var timerSeconds = 20;
+var timerSeconds = TIMER_SECONDS;
 var timerMilliseconds = timerSeconds * MILLISECONDS_PER_SECOND;
 
 //
@@ -76,6 +77,17 @@ Return Value:
     if (timerMilliseconds > 0) {
         timerSeconds = timerMilliseconds / MILLISECONDS_PER_SECOND;
         document.getElementById('timer').innerHTML = timerSeconds.toString()
+
+        //
+        // After the window has displayed for a second, allow the user to exit
+        // out of the screen. Ignore mouse moves, as those may not always
+        // be intentional.
+        //
+
+        if (timerSeconds < TIMER_SECONDS) {
+            document.addEventListener('click', timerComplete);
+            document.addEventListener('keydown', timerComplete);
+        }
 
     } else {
         timerComplete()
@@ -112,14 +124,6 @@ Return Value:
 //
 // --------------------------------------------------------------------- Script
 //
-
-//
-// Consider the timer complete as soon as there is some user interaction.
-// Ignore mouse moves, as those may not always be intentional.
-//
-
-document.addEventListener('click', timerComplete);
-document.addEventListener('keydown', timerComplete);
 
 //
 // Initialize the timer value and then start the countdown, updating the
